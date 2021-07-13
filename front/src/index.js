@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {io} from "socket.io-client";
+
+const SERVER_URL = 'ws://localhost:3000'
+let socket = io(SERVER_URL, {})
+
+socket.on('connected', socket => {
+  console.log('front connected'+socket.id)
+})
+
+socket.emit("userEvent", {user: "vova"})
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

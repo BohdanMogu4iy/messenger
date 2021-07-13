@@ -1,14 +1,5 @@
 import React, {useRef} from 'react'
-import {io} from "socket.io-client";
 
-const SERVER_URL = 'ws://localhost:3000'
-let socket = io(SERVER_URL, {})
-
-socket.on('connected', socket => {
-  console.log('front connected'+socket.id)
-})
-
-socket.emit("userEvent", {user: "vova"})
 
 function App() {
 
