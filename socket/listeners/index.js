@@ -1,13 +1,10 @@
-const {events} = require("../../config");
-const {authMiddleware} = require("../middlewares");
+const {jwtMiddleware, sessionMiddleware,  userMiddleware, logMiddleware} = require("../middlewares");
+const registerConnectionListener = require("./connectionListener")
 
 module.exports = io => {
-    io.use(authMiddleware)
-    io.on("connection", function (socket) {
-        console.log(`user ${socket.userId} connected\n via session ${socket.sessionId}\n via socket ${socket.id}`)
-        socket.emit(events.SESSION_NEW, {session: socket.sessionId, token: socket.token})
-        socket.on('disconnect', () => {
-            console.log(`user disconnected\n via socket ${socket.id}`)
-        })
-    })
+    io.use(jwtMiddleware(io))
+    io.use(sessionMiddleware(io))
+    io.use(userMiddleware(io))
+    io.use(logMiddleware(io))
+    io.on("connection", registerConnectionListener(io))
 }
