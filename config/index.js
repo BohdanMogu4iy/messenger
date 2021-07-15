@@ -2,14 +2,10 @@ const path = require('path')
 
 const config = {
     dev: {
-        mongo_db: {
-
-        }
+        mongo_db: {}
     },
     prod: {
-        mongo_db: {
-
-        }
+        mongo_db: {}
     },
     events: {
         CHATS_ALL: "chats:all",
@@ -18,26 +14,23 @@ const config = {
         USER_DISCONNECTED: "user:disconnected",
         CONNECTED: "connected"
     },
-    jwt: {
-    },
-    errors: {
-        UNAUTHORIZED: "Unauthorized"
-    },
+    jwt: {},
+    errors: {},
     imagesDir: path.resolve(__dirname, "../public/images")
 }
 
 if (process.env.JWT_SECRET) {
     config.jwt.SECRET = process.env.JWT_SECRET
-}else {
+} else {
     console.error("JWT_SECRET is not SET")
     process.exit(1)
 }
 
 if (process.env.MONGODB_URI) {
-    if (process.env.NODE_ENV && process.env.NODE_ENV === 'production'){
+    if (process.env.NODE_ENV && process.env.NODE_ENV === 'production') {
         config.prod.mongo_db.URI = process.env.MONGODB_URI
-    }else config.dev.mongo_db.URI = process.env.MONGODB_URI
-}else {
+    } else config.dev.mongo_db.URI = process.env.MONGODB_URI
+} else {
     console.error("MOGODB_URI is not SET")
     process.exit(1)
 }

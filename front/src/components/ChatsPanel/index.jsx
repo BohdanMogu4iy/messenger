@@ -1,70 +1,66 @@
-// import React, {useEffect, useState} from 'react'
-// import ChatList from "../ChatList"
-// import SearchForm from "../SearchForm"
-// import {ContextChats} from "../../storage/Chats";
-// import {ContextSocket} from "../../storage/Socket";
-//
-// const ChatsPanel = () => {
-//     const [chatsType, setChatsType] = useState('online')
-//     const onClickHandler = action => {
-//         return e => {
-//             e.preventDefault()
-//             setChatsType(action)
-//         }
-//     }
-//
-//     const chatsContext = useContext(ContextChats)
-//     const socketsContext = useContext(ContextSocket)
-//
-//     const handleAllChats = useCallback(data => {
-//
-//     },[])
-//     const handleUserConnected = useCallback(data => {
-//
-//     },[])
-//     const handleUserDisconnected = useCallback(data => {
-//
-//     },[])
-//
-//     useEffect(()=>{
-//         socketsContext.on()
-//
-//         return () => {
-//
-//         }
-//     }, [])
-//
-//     return (
-//         <div>
-//             <div>
-//                 <button onClick={onClickHandler('all')}>All</button>
-//                 <button onClick={onClickHandler('online')}>Online</button>
-//             </div>
-//             <ChatList
-//                 chats={
-//                     function () {
-//                         switch (chatsType) {
-//                             case "all":
-//                                 console.log(chatsContext.state.chats)
-//                                 return chatsContext.state.chats
-//                             case "online":
-//                                 const onlineChats = chatsContext.state.chats.filter(chat => {
-//                                     for (let u of chat.users.map(user=>user._id)){
-//                                         if (!chatsContext.state.onlineUsers.includes(u)){
-//                                             return false
-//                                         }
-//                                     }
-//                                     return true
-//                                 })
-//                                 console.log(onlineChats)
-//                                 return onlineChats
-//                         }
-//                     }()
-//                 }
-//             />
-//             <SearchForm/>
-//         </div>
-//     )
-// }
-//
-// export default ChatsPanel;
+import React, {useCallback, useContext, useRef, useState} from 'react'
+import ChatList from "./ChatList"
+import SearchForm from "./SearchForm"
+import {ContextChats} from "../../storage/Chats";
+import ChatsControlButtonsWrapper from "./ChatsControlButtonsWrapper";
+import {StyledChatsPanelWrapper} from "./styled";
+
+const ChatsPanel = () => {
+    const [chatsType, setChatsType] = useState('All')
+    const onEventHandler = useCallback(action => {
+        return e => {
+            e.preventDefault()
+            setChatsType(action)
+        }
+    }, [])
+
+    const chatsContext = useContext(ContextChats)
+
+    const [searchFilter, setSearchFilter] = useState('')
+
+    const onSubmitHandler = useCallback(e => {
+        e.preventDefault()
+        setSearchFilter(searchInput.current.value.trim().toLowerCase())
+    }, [])
+
+    const searchInput = useRef(null)
+
+
+    return (
+        <StyledChatsPanelWrapper>
+            <ChatsControlButtonsWrapper
+                buttons={[
+                    {clickHandler: onEventHandler('All'), value: 'All', state: chatsType},
+                    {clickHandler: onEventHandler('Online'), value: 'Online', state: chatsType}
+                ]}
+            />
+            <ChatList
+                chats={
+                    function () {
+                        switch (chatsType) {
+                            case "All":
+                                return searchFilter ? (
+                                    chatsContext.state.chats.filter(chat => chat.name.toLowerCase().includes(searchFilter))
+                                ) : (
+                                    chatsContext.state.chats
+                                )
+                            case "Online":
+                                return searchFilter ? (
+                                    chatsContext.state.chats.filter(chat => {
+                                        return chatsContext.state.onlineUsers.includes(chat.user.userId)
+                                    }).filter(chat => chat.name.toLowerCase().includes(searchFilter))
+                                ) : (
+                                    chatsContext.state.chats.filter(chat => {
+                                        return chatsContext.state.onlineUsers.includes(chat.user.userId)
+                                    })
+                                )
+                        }
+                    }()
+                }
+            />
+            <SearchForm submitHandle={onSubmitHandler} inputRef={searchInput}/>
+        </StyledChatsPanelWrapper>
+    )
+}
+
+export default ChatsPanel;

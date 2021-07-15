@@ -35,7 +35,7 @@ const getAllUserPersonalChats = userId => {
             const onlineUsers = getOnlineUsers()
             return chatList.map(chat => {
                 chat.users = chat.users.filter(user => user.id !== userId)
-                chat.online = onlineUsers.has(userId)
+                chat.online = onlineUsers.has(chat.users[0].id)
                 return chat
             }).map(chatSerializer)
         })

@@ -3,18 +3,27 @@ import authService from "../../services/storageService";
 import Wrapper from "../styled/Wrapper"
 import {ContextChats, chatsInitialState, chatsReducer} from "../../storage/Chats";
 import {ContextSocket, socketInitialState} from "../../storage/Socket";
+import MessagesPanel from "../MessagesPanel";
+import ChatsPanel from "../ChatsPanel"
+import SocketHandler from "../SocketHandler";
+import Header from "../styled/Header";
+import Body from "../styled/Body";
 
 const App = () => {
     const [state, dispatch] = useReducer(chatsReducer, chatsInitialState)
 
     return (
-        <ContextSocket.Provider values={socketInitialState}>
+        <ContextSocket.Provider value={socketInitialState}>
             <ContextChats.Provider value={{state, dispatch}}>
-                <Wrapper>
-                    <div>Your Session {authService.getSession()}</div>
-                    <div>Your Token {authService.getToken()}</div>
-                    {/*<ChatsPanel/>*/}
-                </Wrapper>
+                <SocketHandler>
+                    <Wrapper>
+                        <Header/>
+                        <Body>
+                            <MessagesPanel/>
+                            <ChatsPanel/>
+                        </Body>
+                    </Wrapper>
+                </SocketHandler>
             </ContextChats.Provider>
         </ContextSocket.Provider>
     )
