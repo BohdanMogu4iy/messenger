@@ -1,4 +1,4 @@
-import authService from "../services/authService";
+import authService from "../services/storageService";
 
 const config = {
     socket: {
@@ -6,21 +6,17 @@ const config = {
         ops: {
             autoConnect: false,
             auth: {
-                token: `Bearer ${authService.getToken()||''}`,
-                session: authService.getSession() || " "
+                token: `Bearer ${authService.getToken() || ''}`,
+                session: authService.getSession() || ''
             },
             transports: ['websocket'],
             upgrade: false
         },
         events: {
-            USER_CREATE: "user:create",
-            USER_NEW: "user:new",
-            USER_CONNECT: "user:connect",
-            USER_DISCONNECT: "user:disconnect",
-            USER_CONNECTED: "user:connected",
-            USER_DISCONNECTED: "user:disconnected",
-            MESSAGE_GOT: "message:got",
-            MESSAGE_SENT: "message:sent",
+            CHATS_ALL: "chats:all",
+            CHATS_ONLINE: "chats:online",
+            CHAT_NEW: "chat:new",
+            CHAT_ONLINE: "chat:online",
             SESSION_NEW: "session:new"
         }
     }

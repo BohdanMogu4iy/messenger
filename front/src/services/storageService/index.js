@@ -1,6 +1,6 @@
 const storage = window.localStorage
 
-const authService = {
+const storageService = {
     getToken: () => {
         return storage.getItem("token")
     },
@@ -24,4 +24,4 @@ const authService = {
     }
 }
 
-export default authService
+export default storageService

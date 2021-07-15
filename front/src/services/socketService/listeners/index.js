@@ -1,5 +1,5 @@
 import config from "../../../config"
-import authService from "../../authService";
+import authService from "../../storageService";
 
 export default socket => {
     socket.onAny((event, ...args) => {
