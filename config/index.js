@@ -13,11 +13,10 @@ const config = {
     },
     events: {
         CHATS_ALL: "chats:all",
-        CHATS_ONLINE: "chats:online",
         USER_NEW: "user:new",
         USER_CONNECTED: "user:connected",
         USER_DISCONNECTED: "user:disconnected",
-        SESSION_NEW: "session:new"
+        CONNECTED: "connected"
     },
     jwt: {
     },

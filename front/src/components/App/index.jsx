@@ -1,21 +1,23 @@
-import React from 'react'
-import socketService from "../../services/socketService";
+import React, {useReducer} from 'react'
 import authService from "../../services/storageService";
 import Wrapper from "../styled/Wrapper"
-import ChatsPanel from "../ChatsPanel";
+import {ContextChats, chatsInitialState, chatsReducer} from "../../storage/Chats";
+import {ContextSocket, socketInitialState} from "../../storage/Socket";
 
-const socket = socketService.socket
-socketService.connect(socket)
-
-const Index = () => {
+const App = () => {
+    const [state, dispatch] = useReducer(chatsReducer, chatsInitialState)
 
     return (
-        <Wrapper>
-            <div>Your Session {authService.getSession()}</div>
-            <div>Your Token {authService.getToken()}</div>
-            <ChatsPanel/>
-        </Wrapper>
+        <ContextSocket.Provider values={socketInitialState}>
+            <ContextChats.Provider value={{state, dispatch}}>
+                <Wrapper>
+                    <div>Your Session {authService.getSession()}</div>
+                    <div>Your Token {authService.getToken()}</div>
+                    {/*<ChatsPanel/>*/}
+                </Wrapper>
+            </ContextChats.Provider>
+        </ContextSocket.Provider>
     )
 }
 
-export default Index;
+export default App;

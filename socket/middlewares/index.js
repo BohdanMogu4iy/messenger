@@ -1,5 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken')
-const {getUserPersonalChat} = require("../../models/Chat");
+const {userMinimiseSerializer} = require("../../serializers");
+const {chatMinimiseSerializer, chatSerializer} = require("../../serializers");
+const {getUsersPersonalChat} = require("../../models/Chat");
 const {mockUser} = require("../../utils");
 const {createUser} = require('../../models/User')
 const {findSession, newSession, newConnection, isUserActive} = require('../../sessionStorage/activeUsers')
@@ -55,8 +57,9 @@ module.exports = {
                             .map(socketObject => socketObject[1])
                             .filter(receiverSocket => receiverSocket.userId !== socket.userId)
                             .map(receiverSocket =>
-                                getUserPersonalChat([socket.userId, receiverSocket.userId])
+                                getUsersPersonalChat([socket.userId, receiverSocket.userId], chatSerializer)
                                     .then(chat => {
+                                        chat.online = true
                                         receiverSocket.emit(events.USER_NEW, chat)
                                     })
                             )
@@ -73,9 +76,10 @@ module.exports = {
                     .map(socketObject => socketObject[1])
                     .filter(receiverSocket => receiverSocket.userId !== socket.userId)
                     .map(receiverSocket =>
-                        getUserPersonalChat([socket.userId, receiverSocket.userId])
+                        getUsersPersonalChat([socket.userId, receiverSocket.userId])
                             .then(chat => {
-                                receiverSocket.emit(events.USER_CONNECTED, chat)
+                                chat.online = true
+                                receiverSocket.emit(events.USER_CONNECTED, userMinimiseSerializer(chat.users[0]))
                             })
                     )
                 )

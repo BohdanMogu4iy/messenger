@@ -19,6 +19,15 @@ const storageService = {
     deleteSession: () => {
         storage.removeItem("session")
     },
+    getUserId: () => {
+        return storage.getItem("user")
+    },
+    setUserId: user => {
+        storage.setItem("user", user)
+    },
+    deleteUserId: () => {
+        storage.removeItem("user")
+    },
     clearAll: () => {
         storage.clear()
     }

@@ -6,6 +6,7 @@ const ChatList = ({chats}) => {
         <div>
             <ul>
                 {chats.filter(chat => chat.users).map(chat => {
+                    console.log(chat)
                     return (
                         <StyledChatListItem>
                             {chat.users[0].name}

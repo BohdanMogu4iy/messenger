@@ -26,11 +26,6 @@ const createUser = user => {
 
 }
 
-const getAllUsers = () => {
-    return User.find({}).exec()
-}
-
 module.exports = {
-    createUser,
-    getAllUsers
+    createUser
 }

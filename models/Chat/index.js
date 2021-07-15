@@ -1,3 +1,4 @@
+const {chatSerializer} = require("../../serializers");
 const {getOnlineUsers} = require("../../sessionStorage/activeUsers");
 const Chat = require('../index').Chat
 
@@ -9,42 +10,34 @@ const createChat = chat => {
 }
 
 const getAllChats = () => {
-    return Chat.find({}).exec()
+    return Chat.find({})
+        .populate('users')
+        .populate('messages')
+        .then(chatList => {
+            return chatList.map(chatSerializer)
+        })
 }
 
-const getUserPersonalChat = users => {
+const getUsersPersonalChat = (users, serializer=null) => {
     return Chat.find({users: {$all: users}, personal: true})
         .populate('users')
+        .populate('messages')
         .then(chatList => {
-            return chatList[0]
+            return serializer ? chatList.map(serializer)[0] : chatList[0]
         })
 }
 
 const getAllUserPersonalChats = userId => {
     return Chat.find({users: {$all: userId}, personal: true})
         .populate('users')
-        .then(chatList => {
-            chatList.map(chat => {
-                chat.users = chat.users.filter(user => user.id !== userId)
-                return chat
-            })
-            return chatList
-        })
-}
-
-const getAllOnlineUserChats = userId => {
-    return Chat.find({users: {$all: userId}, personal: true})
-        .populate('users')
+        .populate('messages')
         .then(chatList => {
             const onlineUsers = getOnlineUsers()
-            chatList.map(chat => {
-                chat.users = chat.users.filter(user => {
-                    return (user.id !== userId) && (onlineUsers.has(user.id))
-                })
+            return chatList.map(chat => {
+                chat.users = chat.users.filter(user => user.id !== userId)
+                chat.online = onlineUsers.has(userId)
                 return chat
-            })
-            chatList = chatList.filter(chat => chat.users.length > 0)
-            return chatList
+            }).map(chatSerializer)
         })
 }
 
@@ -52,6 +45,5 @@ module.exports = {
     createChat,
     getAllChats,
     getAllUserPersonalChats,
-    getAllOnlineUserChats,
-    getUserPersonalChat
+    getUsersPersonalChat
 }

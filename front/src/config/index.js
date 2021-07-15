@@ -14,10 +14,10 @@ const config = {
         },
         events: {
             CHATS_ALL: "chats:all",
-            CHATS_ONLINE: "chats:online",
-            CHAT_NEW: "chat:new",
-            CHAT_ONLINE: "chat:online",
-            SESSION_NEW: "session:new"
+            USER_NEW: "user:new",
+            USER_CONNECTED: "user:connected",
+            USER_DISCONNECTED: "user:disconnected",
+            CONNECTED: "connected"
         }
     }
 }

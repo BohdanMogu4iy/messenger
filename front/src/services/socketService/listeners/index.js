@@ -1,12 +1,13 @@
 import config from "../../../config"
-import authService from "../../storageService";
+import storageService from "../../storageService";
 
 export default socket => {
     socket.onAny((event, ...args) => {
         console.log(event, args);
     });
-    socket.on(config.socket.events.SESSION_NEW, ({session, token}) => {
-        authService.setSession(session)
-        authService.setToken(token)
+    socket.on(config.socket.events.CONNECTED, ({session, token, user}) => {
+        storageService.setSession(session)
+        storageService.setToken(token)
+        storageService.setUserId(user)
     })
 }
