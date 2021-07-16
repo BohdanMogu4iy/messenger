@@ -1,4 +1,4 @@
-import React, {useCallback, useContext} from 'react'
+import React, {useContext} from 'react'
 import ChatListItem from "./ChatListItem";
 import {ChatListWrapper, StyledChatList} from "./styled";
 import {ACTIONS, ContextChats} from "../../../storage/Chats";
@@ -7,7 +7,7 @@ const ChatList = ({chats}) => {
 
     const chatsContext = useContext(ContextChats)
 
-    const onClickHandler = useCallback(e => {
+    const onClickHandler = e => {
         if (e.nativeEvent.path[0].tagName !== "UL"){
             for (let el of e.nativeEvent.path){
                 if (el.tagName === "LI" && el.dataset.chatId){
@@ -15,7 +15,7 @@ const ChatList = ({chats}) => {
                 }
             }
         }
-    }, [chatsContext])
+    }
 
     return (
         <ChatListWrapper>

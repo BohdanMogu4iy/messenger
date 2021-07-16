@@ -5,24 +5,25 @@ const createUser = user => {
     return new User(user).save()
         .then(createdUser => {
             return User.find({_id: {$ne: createdUser.id}}).exec()
-                .then(chatList => chatList
-                    .map(u =>
+                .then(chatList => {
+                    return chatList.map(u =>
                         createChat({
-                            users: [createdUser._id, u._id].map(user => user._id),
+                            users: [createdUser._id, u._id],
                             personal: true
                         }))
-                )
+                })
                 .then(promiseList => {
                     return {
                         promiseList,
                         createdUser
                     }
                 })
+
         })
         .then(({promiseList, createdUser}) => {
-                return Promise.all(promiseList).then(() => createdUser.id)
-            }
-        )
+            return Promise.all(promiseList)
+                .then(() => createdUser)
+        })
 
 }
 

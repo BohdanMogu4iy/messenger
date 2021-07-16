@@ -2,10 +2,17 @@ const {chatSerializer} = require("../../serializers");
 const {getOnlineUsers} = require("../../sessionStorage/activeUsers");
 const Chat = require('../index').Chat
 
+const getChatUsers =  chatId => {
+    return Chat.find({_id: chatId}).exec()
+        .then(chats => {
+            return chats[0]?.users || []
+        })
+}
+
 const createChat = chat => {
     return new Chat(chat).save()
         .then(createdChat => {
-            return createdChat.id
+            return createdChat
         })
 }
 
@@ -14,7 +21,7 @@ const getAllChats = () => {
         .populate('users')
         .populate('messages')
         .then(chatList => {
-            return chatList.map(chatSerializer)
+            return chatList.map(chatSerializer) || []
         })
 }
 
@@ -45,5 +52,6 @@ module.exports = {
     createChat,
     getAllChats,
     getAllUserPersonalChats,
-    getUsersPersonalChat
+    getUsersPersonalChat,
+    getChatUsers
 }

@@ -1,4 +1,7 @@
 import styled from "styled-components"
+import React, {useEffect, useRef, useState} from "react"
+import {ContextMessenger} from "./ContextMessenger"
+import BodyContext from "./BodyContext";
 
 const StyledBody = styled.div`
     width: 100%;
@@ -11,7 +14,7 @@ const StyledBody = styled.div`
     grid-template-areas: ". content .";
 `
 const StyledMessenger = styled.div`
-    height: calc(100vh - 130px);
+    height: calc(100% - 65px);
     margin-top: 15px;
     margin-bottom: 50px;
     overflow: hidden;
@@ -22,10 +25,14 @@ const StyledMessenger = styled.div`
 `
 
 const Body = ({children}) => {
+    const messengerRef = useRef()
+
     return (
         <StyledBody>
-            <StyledMessenger>
-                {children}
+            <StyledMessenger ref={messengerRef}>
+                <BodyContext parentRef={messengerRef}>
+                    {children}
+                </BodyContext>
             </StyledMessenger>
         </StyledBody>
     )

@@ -9,6 +9,7 @@ const ChatsControlButtonsWrapper = ({buttons}) => {
                     <ChatsControlButton
                         clickHandler={button.clickHandler}
                         buttonState={button.value === button.state}
+                        key={button.value}
                     >
                         {button.value}
                     </ChatsControlButton>

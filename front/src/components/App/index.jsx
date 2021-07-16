@@ -1,5 +1,4 @@
 import React, {useReducer} from 'react'
-import authService from "../../services/storageService";
 import Wrapper from "../styled/Wrapper"
 import {ContextChats, chatsInitialState, chatsReducer} from "../../storage/Chats";
 import {ContextSocket, socketInitialState} from "../../storage/Socket";

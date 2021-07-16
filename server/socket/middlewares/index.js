@@ -1,6 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken')
-const {userMinimiseSerializer} = require("../../serializers");
-const {chatMinimiseSerializer, chatSerializer} = require("../../serializers");
+const {chatSerializer} = require("../../serializers");
 const {getUsersPersonalChat} = require("../../models/Chat");
 const {mockUser} = require("../../utils");
 const {createUser} = require('../../models/User')
@@ -26,7 +25,7 @@ module.exports = {
         const sessionId = socket.handshake.auth.session
         if (sessionId) {
             const session = findSession({userId: socket.userId, sessionId})
-            if (session) {
+            if (session.length > 0) {
                 if (newConnection({userId: socket.userId, sessionId, socketId: socket.id})) {
                     socket.sessionId = sessionId
                     socket.userStatus = 1
@@ -47,8 +46,8 @@ module.exports = {
                     .then(user => {
                         return createUser(user)
                     })
-                    .then(userId => {
-                        socket.userId = userId
+                    .then(createdUser => {
+                        socket.userId = createdUser.id
                         socket.sessionId = newSession({userId: socket.userId, socketId: socket.id}).sessionId
                         socket.token = jsonwebtoken.sign({userId: socket.userId}, jwt.SECRET)
                     })
@@ -59,7 +58,7 @@ module.exports = {
                             .map(receiverSocket =>
                                 getUsersPersonalChat([socket.userId, receiverSocket.userId], chatSerializer)
                                     .then(chat => {
-                                        chat.online = true
+                                        console.log(chat)
                                         receiverSocket.emit(events.USER_NEW, chat)
                                     })
                             )
@@ -71,18 +70,10 @@ module.exports = {
                         console.error(err)
                     })
                 return next()
+            case 2:
+
             case 3:
-                await Promise.all(Array.from(io.sockets.sockets)
-                    .map(socketObject => socketObject[1])
-                    .filter(receiverSocket => receiverSocket.userId !== socket.userId)
-                    .map(receiverSocket =>
-                        getUsersPersonalChat([socket.userId, receiverSocket.userId])
-                            .then(chat => {
-                                chat.online = true
-                                receiverSocket.emit(events.USER_CONNECTED, userMinimiseSerializer(chat.users[0]))
-                            })
-                    )
-                )
+                socket.broadcast.emit(events.USER_CONNECTED, {userId: socket.userId})
                 return next()
             default:
                 return next()

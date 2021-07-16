@@ -7,24 +7,23 @@ import {StyledChatsPanelWrapper} from "./styled";
 
 const ChatsPanel = () => {
     const [chatsType, setChatsType] = useState('All')
-    const onEventHandler = useCallback(action => {
+    const onEventHandler = action => {
         return e => {
             e.preventDefault()
             setChatsType(action)
         }
-    }, [])
+    }
 
     const chatsContext = useContext(ContextChats)
 
     const [searchFilter, setSearchFilter] = useState('')
 
-    const onSubmitHandler = useCallback(e => {
+    const onSubmitHandler = e => {
         e.preventDefault()
         setSearchFilter(searchInput.current.value.trim().toLowerCase())
-    }, [])
+    }
 
     const searchInput = useRef(null)
-
 
     return (
         <StyledChatsPanelWrapper>

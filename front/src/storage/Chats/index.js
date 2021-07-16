@@ -1,12 +1,13 @@
 import {createContext} from "react";
-export const ContextChats = createContext();
+export const ContextChats = createContext()
 
 export const ACTIONS = {
     CHATS_ALL: "CHATS_ALL",
     USER_NEW: "USER_NEW",
     USER_CONNECTED: "USER_CONNECTED",
     USER_DISCONNECTED: "USER_DISCONNECTED",
-    CHAT_SELECT: "CHAT_SELECT"
+    CHAT_SELECT: "CHAT_SELECT",
+    MESSAGE_NEW: "MESSAGE_NEW"
 }
 
 export const chatsInitialState = {
@@ -16,7 +17,7 @@ export const chatsInitialState = {
 };
 
 export const chatsReducer = (state, action) => {
-    const newState = Object.assign({}, state)
+    const newState = JSON.parse(JSON.stringify(state))
     switch(action.type) {
         case ACTIONS.CHATS_ALL:
             newState.chats = action.data
@@ -31,13 +32,18 @@ export const chatsReducer = (state, action) => {
             return newState
         case ACTIONS.USER_DISCONNECTED:
             newState.onlineUsers = newState.onlineUsers.filter(userId => {
-                console.log("user " + userId !== action.data, userId, action.data)
                 return userId !== action.data
             })
             return newState
         case ACTIONS.CHAT_SELECT:
             newState.selectedChat = action.data
-            console.log(newState.selectedChat)
+            return newState
+        case ACTIONS.MESSAGE_NEW:
+            for (let chat of newState.chats){
+                if (chat.chatId === action.data.to){
+                    chat.messages.push(action.data)
+                }
+            }
             return newState
         default:
             return newState

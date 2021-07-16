@@ -17,7 +17,10 @@ const config = {
             USER_NEW: "user:new",
             USER_CONNECTED: "user:connected",
             USER_DISCONNECTED: "user:disconnected",
-            CONNECTED: "connected"
+            // USER_TYPING: "user:typing",
+            CONNECTED: "connected",
+            MESSAGE_GOT: "message:got",
+            MESSAGE_SENT: "message:sent",
         }
     }
 }

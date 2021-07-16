@@ -27,10 +27,12 @@ const newConnection = ({userId, sessionId, socketId}) => {
     return session[0]
 }
 
+const findAllConnections = (users) => {
+    return activeUsers.filter(session => users.includes(session.userId)).map(session => session.sockets).flat()
+}
+
 const findConnection = ({socketId}) => {
-    return activeUsers.filter(session => {
-        return session.sockets.includes(socketId)
-    });
+    return activeUsers.filter(session => session.sockets.includes(socketId))
 }
 
 const closeConnection = ({socketId}) => {
@@ -70,5 +72,6 @@ module.exports = {
     closeConnection,
     closeSession,
     isUserActive,
-    getOnlineUsers
+    getOnlineUsers,
+    findAllConnections
 }

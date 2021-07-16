@@ -5,4 +5,5 @@ export const ContextSocket = createContext();
 const socket = socketService.socket
 socketService.connect(socket)
 
+
 export const socketInitialState = socket;
