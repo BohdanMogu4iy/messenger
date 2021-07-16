@@ -29,10 +29,18 @@ export const chatsReducer = (state, action) => {
             return newState
         case ACTIONS.USER_CONNECTED:
             newState.onlineUsers.push(action.data)
+            newState.chats.map(chat => {
+                chat.user.lastSeen = action.lastSeen
+                return chat
+            })
             return newState
         case ACTIONS.USER_DISCONNECTED:
             newState.onlineUsers = newState.onlineUsers.filter(userId => {
                 return userId !== action.data
+            })
+            newState.chats.map(chat => {
+                chat.user.lastSeen = action.lastSeen
+                return chat
             })
             return newState
         case ACTIONS.CHAT_SELECT:
@@ -41,9 +49,14 @@ export const chatsReducer = (state, action) => {
         case ACTIONS.MESSAGE_NEW:
             for (let chat of newState.chats){
                 if (chat.chatId === action.data.to){
+                    console.log(action.data)
                     chat.messages.push(action.data)
                 }
             }
+            newState.chats.map(chat => {
+                chat.user.lastSeen = action.lastSeen
+                return chat
+            })
             return newState
         default:
             return newState

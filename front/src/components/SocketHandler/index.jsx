@@ -13,28 +13,31 @@ const SocketHandler = ({children}) => {
             data: chats
         })
     }
-    const userNewHandler =chat => {
+    const userNewHandler = chat => {
         chatsContext.dispatch({
             type: ACTIONS.USER_NEW,
             data: chat
         })
     }
-    const userConnectedHandler = ({userId}) => {
+    const userConnectedHandler = ({userId, lastSeen}) => {
         chatsContext.dispatch({
             type: ACTIONS.USER_CONNECTED,
-            data: userId
+            data: userId,
+            lastSeen: lastSeen
         })
     }
-    const userDisconnectedHandler = ({userId}) => {
+    const userDisconnectedHandler = ({userId, lastSeen}) => {
         chatsContext.dispatch({
             type: ACTIONS.USER_DISCONNECTED,
-            data: userId
+            data: userId,
+            lastSeen: lastSeen
         })
     }
-    const messageGotHandler = message => {
+    const messageGotHandler = ({message ,lastSeen}) => {
         chatsContext.dispatch({
             type: ACTIONS.MESSAGE_NEW,
-            data: message
+            data: message,
+            lastSeen: lastSeen
         })
     }
 

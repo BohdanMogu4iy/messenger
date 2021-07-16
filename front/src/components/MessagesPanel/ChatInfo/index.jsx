@@ -1,6 +1,14 @@
 import React, {useContext} from 'react'
-import {StyledChatDescription, StyledChatInfo, StyledChatLogo, StyledChatName, StyledMockChatLogo} from "./styled";
+import {
+    StyledChatDescription,
+    StyledChatInfo,
+    StyledChatLogo,
+    StyledChatName,
+    StyledLastSeen,
+    StyledMockChatLogo
+} from "./styled";
 import {ContextChats} from "../../../storage/Chats";
+import {formatAMPM} from "../../../utils";
 
 
 const ChatInfo = () => {
@@ -14,10 +22,17 @@ const ChatInfo = () => {
                     <StyledChatLogo
                         src={`data:image/png;base64, ${chat.logoBase64}`}
                         alt={""}
-                        online={chatsContext.state.onlineUsers.includes(chat.user.userId)}
                     />
                     <StyledChatDescription>
                         <StyledChatName>{chat.name}</StyledChatName>
+                        {chatsContext.state.onlineUsers.includes(chat.user.userId) ? (
+                            <>
+                            </>
+                        ) : (
+                            <StyledLastSeen>
+                                {`last seen ${formatAMPM(new Date(chat.user.lastSeen))}`}
+                            </StyledLastSeen>
+                        )}
                     </StyledChatDescription>
                 </>
                 ) : (

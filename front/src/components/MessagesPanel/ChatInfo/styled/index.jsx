@@ -8,6 +8,7 @@ export const StyledChatInfo = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     background: #becbd9;
+    
 `
 
 export const StyledChatLogo = styled.img`
@@ -30,4 +31,11 @@ export const StyledMockChatLogo  = styled.div`
     background: grey;
     height: 100%;
     width: 160px;
+    position: relative
+   
+`
+
+export const StyledLastSeen  = styled.div`
+    padding-top: 10px;
+    font-size: 14px;   
 `

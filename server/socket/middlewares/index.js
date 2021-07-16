@@ -1,4 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken')
+const {updateUserLastSeen} = require("../../models/User");
 const {chatSerializer} = require("../../serializers");
 const {getUsersPersonalChat} = require("../../models/Chat");
 const {mockUser} = require("../../utils");
@@ -70,10 +71,26 @@ module.exports = {
                         console.error(err)
                     })
                 return next()
+            case 1:
+                updateUserLastSeen({userId: socket.userId, lastSeen: Date.now()}).then(
+                    lastSeen => {
+                        socket.broadcast.emit(events.USER_CONNECTED, {userId: socket.userId, lastSeen: lastSeen})
+                    }
+                )
+                return next()
             case 2:
-
+                updateUserLastSeen({userId: socket.userId, lastSeen: Date.now()}).then(
+                    lastSeen => {
+                        socket.broadcast.emit(events.USER_CONNECTED, {userId: socket.userId, lastSeen: lastSeen})
+                    }
+                )
+                return next()
             case 3:
-                socket.broadcast.emit(events.USER_CONNECTED, {userId: socket.userId})
+                updateUserLastSeen({userId: socket.userId, lastSeen: Date.now()}).then(
+                    lastSeen => {
+                        socket.broadcast.emit(events.USER_CONNECTED, {userId: socket.userId, lastSeen: lastSeen})
+                    }
+                )
                 return next()
             default:
                 return next()

@@ -48,10 +48,20 @@ const getAllUserPersonalChats = userId => {
         })
 }
 
+const updateChatMessages = ({chatId, message}) => {
+    return Chat.findOneAndUpdate({_id: chatId}, {
+        $push: {messages: message._id}
+    })
+        .then(() => {
+            return message
+        })
+}
+
 module.exports = {
     createChat,
     getAllChats,
     getAllUserPersonalChats,
     getUsersPersonalChat,
-    getChatUsers
+    getChatUsers,
+    updateChatMessages
 }

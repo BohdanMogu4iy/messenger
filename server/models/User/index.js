@@ -24,9 +24,16 @@ const createUser = user => {
             return Promise.all(promiseList)
                 .then(() => createdUser)
         })
+}
 
+const updateUserLastSeen = ({userId, lastSeen}) => {
+    return User.findOneAndUpdate({_id: userId}, {"$set": {lastSeen: lastSeen}})
+        .then(() => {
+            return lastSeen
+        })
 }
 
 module.exports = {
-    createUser
+    createUser,
+    updateUserLastSeen
 }
