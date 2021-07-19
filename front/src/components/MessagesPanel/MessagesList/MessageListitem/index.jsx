@@ -7,7 +7,6 @@ import {formatAMPM} from "../../../../utils";
 const MessagesListItem = ({message}) => {
     const chatsContext = useContext(ContextChats)
 
-    console.log(message.time, new Date(message.time), formatAMPM(new Date(message.time)))
     return (
         <MessageItem
             sender={message.from === storageService.getUserId() ? 'You' : chatsContext.state.chats.filter(chat => chat.chatId === message.to)[0].name}

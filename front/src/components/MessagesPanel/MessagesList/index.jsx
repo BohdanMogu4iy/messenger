@@ -13,7 +13,7 @@ const MessagesList = ({chat}) => {
                 chat.messages && chat.messages.length > 0 ? (
                     <StyledMessagesList>
                         {chat.messages.map(message => {
-                            return <MessagesListItem message={message} key={message.id}/>
+                            return <MessagesListItem message={message} key={message.time + message.from}/>
                         })}
                     </StyledMessagesList>
                 ) : (

@@ -74,7 +74,8 @@ const MessageBody = styled.div`
 `
 
 const MessageContent = styled.div`
-    
+    word-wrap: break-word;
+    max-width: 75%;
 `
 
 

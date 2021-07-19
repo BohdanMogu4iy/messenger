@@ -3,7 +3,12 @@ import React from "react";
 
 const StyledChatListWrapper = styled.div`
     overflow-y: scroll;
-    height: calc(100% - 120px);
+    @media (max-width: 1040px){
+        height: calc(100% - 140px);
+    }
+    @media (min-width: 1040px){
+        height: calc(100% - 135px);
+    }
     margin: 15px 5px;
     
     ::-webkit-scrollbar {
