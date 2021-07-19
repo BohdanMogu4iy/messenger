@@ -1,29 +1,38 @@
 import styled from "styled-components"
 import React from "react"
+import Container from "../Container";
 
-const StyledHeader = styled.div`
+const StyledHeaderWrapper = styled.div`
     width: 100%;
     height: 80px;
-    display:grid;
-    grid-column-gap: 15px;
-    grid-template-columns: 1fr 12fr 1fr;
-    grid-template-areas: ". content .";
-    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+`
+
+const StyledHeaderContainer = styled(Container)`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 `
 
 const StyledHeaderTitle = styled.h2`
-    grid-area: content;
     margin: 0;
     font-size: 2rem;
+    padding: 15px 0;
 `
 
 const Header = () => {
     return(
-        <StyledHeader>
-            <StyledHeaderTitle>
-                Chat Bots 2.0
-            </StyledHeaderTitle>
-        </StyledHeader>
+        <StyledHeaderWrapper>
+            <StyledHeaderContainer>
+                <StyledHeaderTitle>
+                    Chat Bots 2.0
+                </StyledHeaderTitle>
+            </StyledHeaderContainer>
+        </StyledHeaderWrapper>
     )
 }
 

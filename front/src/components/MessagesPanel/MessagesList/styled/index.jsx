@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledMessagesListWrapper = styled.div`
-    height: ${props => 'calc('+props.parentHeight+'px - 265px)'};
+    height: ${props => 'calc('+props.parentHeight+'px - 250px)'};
     min-height: 160px;
     display: flex;
     width: calc(100% - 20px);

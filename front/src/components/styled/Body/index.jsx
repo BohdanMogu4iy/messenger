@@ -1,40 +1,37 @@
 import styled from "styled-components"
-import React, {useEffect, useRef, useState} from "react"
-import {ContextMessenger} from "./ContextMessenger"
+import React, {useRef} from "react"
 import BodyContext from "./BodyContext";
+import Container from "../Container";
+import MessagesPanel from "../../MessagesPanel";
+import ChatsPanel from "../../ChatsPanel";
+import {StyledMessengerWrapper} from "./styled";
 
-const StyledBody = styled.div`
+const StyledBodyWrapper = styled.div`
     width: 100%;
-    height: calc(100vh - 80px);
-    overflow: hidden;
-    background: #586670;
-    display: grid;
-    grid-column-gap: 15px;
-    grid-template-columns: 1fr 12fr 1fr;
-    grid-template-areas: ". content .";
-`
-const StyledMessenger = styled.div`
-    height: calc(100% - 65px);
-    margin-top: 15px;
-    margin-bottom: 50px;
-    overflow: hidden;
-    grid-area: content;
-    display: grid;
-    grid-template-columns: 9fr 3fr;
-    background: #d7dfe7;
+    height: calc(100% - 80px);
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
 `
 
-const Body = ({children}) => {
+const StyledBodyContainer = styled(Container)`
+    height: 100%;
+`
+const Body = () => {
     const messengerRef = useRef()
 
     return (
-        <StyledBody>
-            <StyledMessenger ref={messengerRef}>
-                <BodyContext parentRef={messengerRef}>
-                    {children}
-                </BodyContext>
-            </StyledMessenger>
-        </StyledBody>
+        <StyledBodyWrapper>
+            <StyledBodyContainer>
+                <StyledMessengerWrapper ref={messengerRef}>
+                    <BodyContext parentRef={messengerRef}>
+                        <MessagesPanel/>
+                        <ChatsPanel/>
+                    </BodyContext>
+                </StyledMessengerWrapper>
+            </StyledBodyContainer>
+        </StyledBodyWrapper>
     )
 }
 

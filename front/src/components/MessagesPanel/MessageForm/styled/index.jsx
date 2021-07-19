@@ -29,6 +29,6 @@ export const StyledMessageForm = styled.form`
 `
 export const StyledMessageFormWrapper = styled.div`
    width: 100%;
-   height: 85px;
-   padding: 15px 15px 30px;
+   height: 70px;
+   padding: 15px;
 `

@@ -2,8 +2,6 @@ import React, {useReducer} from 'react'
 import Wrapper from "../styled/Wrapper"
 import {ContextChats, chatsInitialState, chatsReducer} from "../../storage/Chats";
 import {ContextSocket, socketInitialState} from "../../storage/Socket";
-import MessagesPanel from "../MessagesPanel";
-import ChatsPanel from "../ChatsPanel"
 import SocketHandler from "../SocketHandler";
 import Header from "../styled/Header";
 import Body from "../styled/Body";
@@ -17,10 +15,7 @@ const App = () => {
                 <SocketHandler>
                     <Wrapper>
                         <Header/>
-                        <Body>
-                            <MessagesPanel/>
-                            <ChatsPanel/>
-                        </Body>
+                        <Body/>
                     </Wrapper>
                 </SocketHandler>
             </ContextChats.Provider>
