@@ -1,4 +1,6 @@
+const path = require("path")
 const fs = require('fs')
+const {imagesDir} = require('../config')
 
 const chatMinimiseSerializer = chat => {
     if (chat.personal) {
@@ -13,7 +15,7 @@ const chatMinimiseSerializer = chat => {
 const chatSerializer = chat => {
     if (chat.personal) {
         const user = chat.users[0]
-        const logoFileBase64 = fs.readFileSync(user.logoSrc)
+        const logoFileBase64 = fs.readFileSync(path.resolve(imagesDir, user.logoSrc))
         return {
             chatId: chat.id,
             logoBase64: Buffer.from(logoFileBase64).toString('base64'),

@@ -3,6 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const dotenv = require('dotenv');
+
+const result = dotenv.config({path: path.resolve(__dirname, './.env')})
+
+if (result.error) {
+  throw result.error
+}
 
 const indexRouter = require('./routes/index');
 

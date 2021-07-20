@@ -21,7 +21,7 @@ const config = {
     },
     jwt: {},
     errors: {},
-    imagesDir: path.resolve(__dirname, "../public/images")
+    imagesDir: path.resolve(__dirname, "../public/images"),
 }
 
 if (process.env.JWT_SECRET) {
@@ -39,6 +39,5 @@ if (process.env.MONGODB_URI) {
     console.error("MOGODB_URI is not SET")
     process.exit(1)
 }
-
 
 module.exports = config

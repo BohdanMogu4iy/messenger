@@ -25,7 +25,7 @@ const mockUser = () => {
     return getRandomImage(imagesDir)
         .then(imagePath => {
             const user = {}
-            user.logoSrc = imagePath
+            user.logoSrc = path.relative(imagesDir, imagePath)
             user.name = getRandomName()
             user.lastSeen = Date.now()
             return user
