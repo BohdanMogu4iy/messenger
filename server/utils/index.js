@@ -4,7 +4,7 @@ const {promisify} = require('util')
 const readDirPromise = promisify(fs.readdir)
 const {imagesDir} = require('../config')
 
-const nameList = ["Jhon", "Bohdan", "Gamer228", "ProorP"]
+const nameList = ["Jhon", "Bohdan", "Sergiy", "Petro", "Denys", "Volodymyr", "Artem", "Yaroslav", "Ivan", "Alex"]
 
 const getRandomInt = max => {
     return Math.floor(Math.random() * max);

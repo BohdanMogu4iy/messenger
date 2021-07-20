@@ -1,0 +1,36 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+  echo-bot:
+    build: ./bots/EchoBot
+    network_mode: host
+    depends_on:
+      - server
+  ignore-bot:
+    build: ./bots/IgnoreBot
+    network_mode: host
+    depends_on:
+      - server
+  reverse-bot:
+    build: ./bots/ReverseBot
+    network_mode: host
+    depends_on:
+      - server
+  spam-bot:
+    build: ./bots/SpamBot
+    network_mode: host
+    depends_on:
+      - server
+  front:
+    build: ./front
+    network_mode: host
+    depends_on:
+      - server
+      - echo-bot
+      - ignore-bot
+      - reverse-bot
+      - spam-bot

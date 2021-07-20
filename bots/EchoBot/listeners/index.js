@@ -1,9 +1,12 @@
 const config = require("../config")
 const messageListener = require("./messageListener")
+const fs = require('fs')
+const path = require('path')
+
 
 module.exports = socket => {
     socket.onAny((event, ...args) => {
-        console.log(event, args);
+        console.log(event);
     });
 
     messageListener(socket)
@@ -14,5 +17,9 @@ module.exports = socket => {
             token: `Bearer ${token}`
         }
         config.user = user
+
+        fs.writeFile(path.resolve(config.appDir, '.env'), `TOKEN=${token}`, function(error){
+            if(error) throw error;
+        });
     })
 }

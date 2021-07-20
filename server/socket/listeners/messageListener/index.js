@@ -23,7 +23,7 @@ const messageSentListener = (io, socket) => {
                             lastSeen => {
                                 connections.forEach(socketId => {
                                     if (socketId !== socket.id){
-                                        console.log(socketId+"  emit events.MESSAGE_GOT")
+                                        console.log(socket.userId+"  emit events.MESSAGE_GOT")
                                         io.to(socketId).emit(events.MESSAGE_GOT, {message: message, lastSeen: lastSeen})
                                     }
                                 })

@@ -3,7 +3,7 @@ import storageService from "../../storageService";
 
 export default socket => {
     socket.onAny((event, ...args) => {
-        console.log(event, args);
+        console.log(event);
     });
 
     socket.on(config.socket.events.CONNECTED, ({session, token, user}) => {

@@ -1,22 +1,20 @@
 const config = require("../config")
 const chatListener = require("./chatListener")
-
-function randomString(length) {
-    let result           = '';
-    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
-    }
-    return result;
-}
+const {randomString} = require("./../util")
+const fs = require('fs')
+const path = require('path')
 
 function sendMessages(socket){
     setTimeout(() => {
         if(config.onlineUsers) {
             config.chats.filter(chat => config.onlineUsers.includes(chat.user.userId)).forEach(chat => {
-                socket.emit(config.events.MESSAGE_SENT, {from: config.user, to: chat.chatId, content: randomString(Math.random()*10+1), time: Date.now()})
+                socket.emit(config.events.MESSAGE_SENT,
+                    {
+                        from: config.user,
+                        to: chat.chatId,
+                        content: randomString(Math.random()*10+1),
+                        time: Date.now()
+                    })
             })
         }
         sendMessages(socket)
@@ -25,7 +23,7 @@ function sendMessages(socket){
 
 module.exports = socket => {
     socket.onAny((event, ...args) => {
-        console.log(event, args);
+        console.log(event);
     });
 
     chatListener(socket)
@@ -36,6 +34,10 @@ module.exports = socket => {
             token: `Bearer ${token}`
         }
         config.user = user
+
+        fs.writeFile(path.resolve(config.appDir, '.env'), `TOKEN=${token}`, function(error){
+            if(error) throw error;
+        });
     })
 
     sendMessages(socket)

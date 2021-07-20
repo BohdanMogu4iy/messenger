@@ -59,7 +59,6 @@ module.exports = {
                             .map(receiverSocket =>
                                 getUsersPersonalChat([socket.userId, receiverSocket.userId], chatSerializer)
                                     .then(chat => {
-                                        console.log(chat)
                                         receiverSocket.emit(events.USER_NEW, chat)
                                     })
                             )

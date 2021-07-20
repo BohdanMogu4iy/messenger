@@ -1,9 +1,11 @@
+const path = require('path')
+
 const config = {
     URL: 'ws://localhost:5000',
     ops: {
         autoConnect: false,
         auth: {
-            token: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MGYxN2U3MmFhZTJjYjM2ODg5OTdjNDIiLCJpYXQiOjE2MjY0MzkyODJ9.Uyt61ychoJwnvV3J0Vwbnc8DUIt_I4gMzlBR-jSc59o`,
+            token: ``,
             session: ''
         },
         transports: ['websocket'],
@@ -19,7 +21,14 @@ const config = {
         MESSAGE_GOT: "message:got",
         MESSAGE_SENT: "message:sent",
     },
-    user: null
+    user: null,
+    appDir: path.resolve(__dirname, '../'),
+    chats: [],
+    onlineUsers: []
+}
+
+if (process.env.TOKEN) {
+    config.ops.auth.token = `Bearer ${process.env.TOKEN}`
 }
 
 module.exports = config
