@@ -1,4 +1,4 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 
 services:
   server:
@@ -27,10 +27,11 @@ services:
       - server
   front:
     build: ./front
-    network_mode: host
     depends_on:
       - server
       - echo-bot
       - ignore-bot
       - reverse-bot
       - spam-bot
+    ports:
+    - "3000:80"
